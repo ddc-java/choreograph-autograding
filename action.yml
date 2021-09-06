@@ -1,0 +1,68 @@
+#  Copyright 2021 CNM Ingenuity, Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+name: Extract
+description: "Prepare to run & autograde JAR-packaged tests."
+inputs:
+  workspace:
+    description: "Base directory of project under test."
+    required: true
+  test-destination:
+    description: "Destination subdirectory of extracted test classes & configuration."
+    required: false
+    default: autograding
+  configuration-destination:
+    description: "Destination subdirectory for autograding configuration."
+    required: false
+    default: .github/classroom
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Java # Required to use JDK other than 1.8/8.
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+        architecture: 'x64'
+        cache: 'gradle'
+    - name: Make gradlew executable
+      run: chmod +x ${{ inputs.workspace }}/gradlew
+      shell: bash
+    - name: Move autograding Gradle build files
+      run: mv ${{ inputs.workspace }}/gradle/* ${{ inputs.workspace }}/
+      shell: bash
+    - name: Move autograding test properties files
+      run: mv ${{ inputs.workspace }}/autograding/* ${{ inputs.workspace }}/${{ inputs.configuration-destination }}
+      shell: bash      
+    - name: Prepare autograding credentials
+      run: ${{ github.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
+      env:
+        PACKAGE_CONSUMER_USER: ${{ secrets.PACKAGE_CONSUMER_USER }}
+        PACKAGE_CONSUMER_TOKEN: ${{ secrets.PACKAGE_CONSUMER_TOKEN }}
+    - name: Run tests # Run compiled tests (with autograding) and submitted tests.
+      uses: education/autograding@v1
+    - name: Upload autograding tests report
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: autograding-tests
+        path: ${{ github.workspace }}/build/reports/tests/combined/**
+    - name: Upload submitted tests report
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: submitted-tests
+        path: ${{ github.workspace }}/build/reports/tests/test/**
+        if-no-files-found: ignore
