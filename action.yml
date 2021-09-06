@@ -49,9 +49,6 @@ runs:
     - name: Move autograding Gradle build files
       run: mv ${{ github.action_path }}/gradle/* ${{ inputs.workspace }}/
       shell: bash
-    - name: Move autograding test properties files
-      run: mkdir -p ${{ inputs.workspace }}/${{ inputs.configuration-destination }} && mv ${{ github.action_path }}/autograding/* ${{ inputs.workspace }}/${{ inputs.configuration-destination }}
-      shell: bash      
     - name: Prepare autograding credentials
       run: ${{ inputs.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
       shell: bash      
