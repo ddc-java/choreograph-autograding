@@ -59,6 +59,7 @@ task copyTests(type: Copy) {
 }
 
 task copyConfiguration(type: Copy) {
+    dependsOn 'copyTests'
     from "${projectDir}/autograding/autograding.json"
     into "${projectDir}/.github/classroom"
 }
@@ -76,6 +77,7 @@ test {
     processTestResources.enabled = false
     dependsOn classes
     dependsOn 'copyTests'
+    dependsOn 'copyConfiguration'
     classpath -= testClassesDirs
     classpath -= files("${buildDir}/resources/test")
     testClassesDirs = files("${projectDir}/autograding")
