@@ -58,18 +58,3 @@ runs:
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
-    - name: Run tests 
-      uses: education/autograding@v1
-    - name: Upload autograding tests report
-      uses: actions/upload-artifact@v2
-#      if: always()
-      with:
-        name: autograding-tests
-        path: ${{ inputs.workspace }}/build/reports/tests/combined/**
-    - name: Upload submitted tests report
-      uses: actions/upload-artifact@v2
-#      if: always()
-      with:
-        name: submitted-tests
-        path: ${{ inputs.workspace }}/build/reports/tests/test/**
-        if-no-files-found: ignore
