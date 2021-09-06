@@ -58,6 +58,3 @@ runs:
     - name: Extract test files
       run: ${{ inputs.workspace }}/gradlew copyConfiguration -build-file autograding.gradle -PreportName=.
       shell: bash
-    - name: Debug
-      run: ls -al ${{ inputs.workspace }}/autograding
-      shell: bash

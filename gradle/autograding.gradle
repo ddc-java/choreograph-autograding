@@ -52,7 +52,6 @@ dependencies {
 task copyTests(type: Copy) {
     def pattern = ~"^.*${solutionArtifact}-.*-tests.jar\$"
     def jarFile = configurations.testRuntimeClasspath.find {
-        println(it)
         it.name.matches(pattern)
     }
     from zipTree(jarFile)
