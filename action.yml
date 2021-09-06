@@ -17,6 +17,12 @@ inputs:
   workspace:
     description: "Base directory of project under test."
     required: true
+  package-consumer-user:
+    description: "Username of authenticated user for package installation"
+    required: true
+  package-consumer-token:
+    description: "Personal access token of authenticated user for package installation"
+    required: true
   test-destination:
     description: "Destination subdirectory of extracted test classes & configuration."
     required: false
@@ -30,7 +36,7 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup Java # Required to use JDK other than 1.8/8.
+    - name: Setup Java 
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
@@ -48,10 +54,11 @@ runs:
       shell: bash      
     - name: Prepare autograding credentials
       run: ${{ github.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
+      shell: bash      
       env:
-        PACKAGE_CONSUMER_USER: ${{ secrets.PACKAGE_CONSUMER_USER }}
-        PACKAGE_CONSUMER_TOKEN: ${{ secrets.PACKAGE_CONSUMER_TOKEN }}
-    - name: Run tests # Run compiled tests (with autograding) and submitted tests.
+        PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
+        PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
+    - name: Run tests 
       uses: education/autograding@v1
     - name: Upload autograding tests report
       uses: actions/upload-artifact@v2
