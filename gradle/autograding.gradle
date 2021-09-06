@@ -55,13 +55,13 @@ task copyTests(type: Copy) {
         it.name.matches(pattern)
     }
     from zipTree(jarFile)
-    into "${projectDir}/autograding"
+    into "${projectDir}/autograding/"
 }
 
 task copyConfiguration(type: Copy) {
     dependsOn 'copyTests'
     from "${projectDir}/autograding/autograding.json"
-    into "${projectDir}/.github/classroom"
+    into "${projectDir}/.github/classroom/"
 }
 
 task copyReport(type: Copy) {
