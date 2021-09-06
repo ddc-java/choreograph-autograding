@@ -24,7 +24,6 @@ group 'edu.cnm.deepdive'
 version '1.0.0'
 
 task appendProperties(type: WriteProperties) {
-    description = 'Write additional properties to gradle.properties.'
     outputFile = file("${projectDir}/gradle.properties")
     properties(readProperties("${projectDir}/gradle.properties", "${projectDir}/autograding.properties"))
     property('packageConsumerUser', System.getenv('PACKAGE_CONSUMER_USER'))
