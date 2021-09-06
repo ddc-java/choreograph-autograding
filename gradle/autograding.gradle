@@ -54,9 +54,13 @@ task copyTests(type: Copy) {
     def jarFile = configurations.testRuntimeClasspath.find {
         it.name.matches(pattern)
     }
-    def outputDir = file("${buildDir}/autograding")
     from zipTree(jarFile)
-    into outputDir
+    into "${projectDir}/autograding"
+}
+
+task copyConfiguration(type: Copy) {
+    from "${projectDir}/autograding/autograding.json"
+    into "${projectDir}/.github/classroom"
 }
 
 task copyReport(type: Copy) {
@@ -74,7 +78,7 @@ test {
     dependsOn 'copyTests'
     classpath -= testClassesDirs
     classpath -= files("${buildDir}/resources/test")
-    testClassesDirs = files("${buildDir}/autograding")
+    testClassesDirs = files("${projectDir}/autograding")
     testLogging {
         events 'passed', 'failed', 'skipped'
     }
