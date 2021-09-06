@@ -47,13 +47,13 @@ runs:
       run: chmod +x ${{ inputs.workspace }}/gradlew
       shell: bash
     - name: Move autograding Gradle build files
-      run: mv ${{ inputs.workspace }}/gradle/* ${{ inputs.workspace }}/
+      run: mv ${{ github.action_path }}/gradle/* ${{ inputs.workspace }}/
       shell: bash
     - name: Move autograding test properties files
-      run: mv ${{ inputs.workspace }}/autograding/* ${{ inputs.workspace }}/${{ inputs.configuration-destination }}
+      run: mkdir -p ${{ inputs.workspace }}/${{ inputs.configuration-destination }} && mv ${{ github.action_path }}/autograding/* ${{ inputs.workspace }}/${{ inputs.configuration-destination }}
       shell: bash      
     - name: Prepare autograding credentials
-      run: ${{ github.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
+      run: ${{ inputs.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
       shell: bash      
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
@@ -65,11 +65,11 @@ runs:
 #      if: always()
       with:
         name: autograding-tests
-        path: ${{ github.workspace }}/build/reports/tests/combined/**
+        path: ${{ inputs.workspace }}/build/reports/tests/combined/**
     - name: Upload submitted tests report
       uses: actions/upload-artifact@v2
 #      if: always()
       with:
         name: submitted-tests
-        path: ${{ github.workspace }}/build/reports/tests/test/**
+        path: ${{ inputs.workspace }}/build/reports/tests/test/**
         if-no-files-found: ignore
