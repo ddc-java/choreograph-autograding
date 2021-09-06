@@ -68,7 +68,7 @@ task copyReport(type: Copy) {
     from("${testReportDir}/test") {
         include '**/*'
     }
-    into "${testReportDir}/combined/${project.reportName ?: ''}/"
+    into "${testReportDir}/combined/${project.reportName ?: '.'}/"
 }
 
 test {
