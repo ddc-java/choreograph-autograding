@@ -1,6 +1,6 @@
 # `choreograph-autograding`
 
-This project implements a GitHub Action that manages the autograding process from beginning to end&mdash;inferring the unit test JAR artifact needed for the given problem file, obtaining them from GitHub Packages, running tests with autograding, and uploading the testing artifacts. This is used to support autograding of assignments, extra credit problems, and practical exam problems of the [Deep Dive Coding](https://deepdivecoding.com/) [Java + Android bootcamp](https://deepdivecoding.com/java-android/).
+This project implements a GitHub Action that manages the autograding process from beginning to end&mdash;inferring the unit test JAR artifact needed for the given problem file, obtaining them from GitHub Packages, running tests with autograding, and uploading the testing artifacts. This is used to support autograding of assignments, extra credit problems, and practical exam problems of the [Deep Dive Coding](https://deepdivecoding.com/) Java training programs.
 
 ## Credits, copyrights, and license information
 
