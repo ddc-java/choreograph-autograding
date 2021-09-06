@@ -62,13 +62,13 @@ runs:
       uses: education/autograding@v1
     - name: Upload autograding tests report
       uses: actions/upload-artifact@v2
-      if: always()
+#      if: always()
       with:
         name: autograding-tests
         path: ${{ github.workspace }}/build/reports/tests/combined/**
     - name: Upload submitted tests report
       uses: actions/upload-artifact@v2
-      if: always()
+#      if: always()
       with:
         name: submitted-tests
         path: ${{ github.workspace }}/build/reports/tests/test/**
