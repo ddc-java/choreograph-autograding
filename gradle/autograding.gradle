@@ -54,7 +54,7 @@ task copyTests(type: Copy) {
     def jarFile = configurations.testRuntimeClasspath.find {
         it.name.matches(pattern)
     }
-    from zipTree(jarFile)
+    // from zipTree(jarFile)
     into "${projectDir}/autograding/"
 }
 
@@ -77,7 +77,6 @@ test {
     processTestResources.enabled = false
     dependsOn classes
     dependsOn 'copyTests'
-    dependsOn 'copyConfiguration'
     classpath -= testClassesDirs
     classpath -= files("${buildDir}/resources/test")
     testClassesDirs = files("${projectDir}/autograding")
