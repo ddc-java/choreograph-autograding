@@ -17,8 +17,11 @@ plugins {
     id 'java'
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
 
 group 'edu.cnm.deepdive'
 version '1.0.0'
