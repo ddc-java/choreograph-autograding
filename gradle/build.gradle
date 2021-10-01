@@ -68,7 +68,7 @@ task copyConfiguration(type: Copy) {
 }
 
 task copyReport(type: Copy) {
-    from("${testReportDir}/test") {
+    from("${testReportDir}/tests") {
         include '**/*'
     }
     into "${testReportDir}/combined/${project.reportName}/"
