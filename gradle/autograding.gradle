@@ -26,7 +26,7 @@ java {
 group 'edu.cnm.deepdive'
 // version must be specified in gradle.properties
 
-def solutionArtifact = "${project.name}-solution"
+def solutionArtifact = "${rootProject.name}-solution"
 
 repositories {
     mavenLocal()
