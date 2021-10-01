@@ -43,8 +43,6 @@ repositories {
 
 dependencies {
 
-    dependsOn properties
-    
     def junitVersion = '5.8.1'
     testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
@@ -77,6 +75,10 @@ task copyReport(type: Copy) {
 }
 
 test {
+    useJUnitPlatform()
+}
+
+task autograde(type: Test) {
     useJUnitPlatform()
     compileTestJava.enabled = false
     processTestResources.enabled = false
