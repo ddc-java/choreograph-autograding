@@ -56,5 +56,5 @@ runs:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
     - name: Extract test files
-      run: ${{ inputs.workspace }}/gradlew copyConfiguration -build-file autograding.gradle -PreportName=.
+      run: ${{ inputs.workspace }}/gradlew copyConfiguration -PreportName=.
       shell: bash
