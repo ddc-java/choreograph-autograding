@@ -26,7 +26,7 @@ java {
 group 'edu.cnm.deepdive'
 // version must be specified in gradle.properties
 
-def solutionArtifact = "${rootProject.name}-solution"
+def solutionArtifact = "${project.name}-solution"
 
 repositories {
     mavenLocal()
@@ -43,6 +43,8 @@ repositories {
 
 dependencies {
 
+    dependsOn properties
+    
     def junitVersion = '5.8.1'
     testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
