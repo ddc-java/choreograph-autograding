@@ -68,17 +68,13 @@ task copyConfiguration(type: Copy) {
 }
 
 task copyReport(type: Copy) {
-    from("${testReportDir}/autograde") {
+    from("${testReportDir}/test") {
         include '**/*'
     }
     into "${testReportDir}/combined/${project.reportName}/"
 }
 
 test {
-    useJUnitPlatform()
-}
-
-task autograde(type: Test) {
     useJUnitPlatform()
     compileTestJava.enabled = false
     processTestResources.enabled = false
