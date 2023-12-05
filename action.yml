@@ -39,6 +39,8 @@ runs:
     - name: Make gradlew executable
       run: chmod +x ${{ inputs.workspace }}/gradlew
       shell: bash
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
     - name: Remove existing Gradle build file
       run: rm -f ${{ inputs.workspace }}/build.gradle*
       shell: bash

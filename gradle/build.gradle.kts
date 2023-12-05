@@ -45,7 +45,7 @@ dependencies {
     testImplementation(libs.junit.aggregator)
     testRuntimeOnly(libs.junit.engine)
 
-    testRuntimeOnly("${project.group}:${solutionArtifact}:${stem(project.version as String)}.+:tests")
+    implementation("${project.group}:${solutionArtifact}:${stem(project.version as String)}.+:tests")
 
 }
 
