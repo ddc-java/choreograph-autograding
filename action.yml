@@ -40,7 +40,7 @@ runs:
       run: chmod +x ${{ inputs.workspace }}/gradlew
       shell: bash
     - name: Validate Gradle wrapper
-      uses: gradle/wrapper-validation-action@v1
+      uses: gradle/wrapper-validation-action@v1.1.0
     - name: Remove existing Gradle build file
       run: rm -f ${{ inputs.workspace }}/build.gradle*
       shell: bash
@@ -48,11 +48,13 @@ runs:
       run: mv ${{ github.action_path }}/gradle/* ${{ inputs.workspace }}/
       shell: bash
     - name: Prepare autograding credentials
-      run: ${{ inputs.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
-      shell: bash
+      uses: gradle/gradle-build-action@v2.10.0
+      with:
+        arguments: appendProperties -build-file prepare-autograding.gradle
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
     - name: Extract test files
-      run: ${{ inputs.workspace }}/gradlew copyConfiguration -PreportName=.
-      shell: bash
+      uses: gradle/gradle-build-action@v2.10.0
+      with:
+        arguments: copyConfiguration -PreportName=.
