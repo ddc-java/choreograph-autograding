@@ -39,8 +39,8 @@ runs:
     - name: Make gradlew executable
       run: chmod +x ${{ inputs.workspace }}/gradlew
       shell: bash
-    - name: Rename existing Gradle build file
-      run: mv ${{ inputs.workspace }}/build.gradle ${{ inputs.workspace }}/submitted.gradle
+    - name: Remove existing Gradle build file
+      run: rm -f ${{ inputs.workspace }}/build.gradle*
       shell: bash
     - name: Move autograding Gradle build files
       run: mv ${{ github.action_path }}/gradle/* ${{ inputs.workspace }}/
