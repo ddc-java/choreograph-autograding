@@ -80,6 +80,7 @@ test {
     classpath -= testClassesDirs
     classpath -= files("${buildDir}/resources/test")
     testClassesDirs = files("${projectDir}/autograding")
+	classpath += files("${projectDir}/autograding")
     testLogging {
         events 'passed', 'failed', 'skipped'
     }
