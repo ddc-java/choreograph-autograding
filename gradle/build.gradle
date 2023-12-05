@@ -1,0 +1,91 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+/*
+ *  Copyright 2023 CNM Ingenuity, Inc.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+plugins {
+    id("java")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.get())
+    }
+}
+
+def solutionArtifact = "${project.name}-solution"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name = "GitHubPackages"
+        url = "https://maven.pkg.github.com/${project.organization}/${solutionArtifact}"
+        credentials {
+            username = project.packageConsumerUser
+            password = project.packageConsumerToken
+        }
+    }
+}
+
+dependencies {
+
+    testImplementation(libs.junit.aggregator)
+    testRuntimeOnly(libs.junit.engine)
+
+    testRuntimeOnly("${project.group}:${solutionArtifact}:${stem(project.version as String)}.+:tests")
+
+}
+
+task copyTests(type: Copy) {
+    def pattern = ~"^.*${solutionArtifact}-.*-tests.jar\$"
+    def jarFile = configurations.testRuntimeClasspath.find {
+        it.name.matches(pattern)
+    }
+    from zipTree(jarFile)
+    into "${projectDir}/autograding/"
+}
+
+task copyConfiguration(type: Copy) {
+    dependsOn 'copyTests'
+    from "${projectDir}/autograding/autograding.json"
+    into "${projectDir}/.github/classroom/"
+}
+
+task copyReport(type: Copy) {
+    from("${testReportDir}/test") {
+        include '**/*'
+    }
+    into "${testReportDir}/combined/${project.reportName}/"
+}
+
+test {
+    useJUnitPlatform()
+    compileTestJava.enabled = false
+    processTestResources.enabled = false
+    dependsOn classes
+    dependsOn 'copyTests'
+    classpath -= testClassesDirs
+    classpath -= files("${buildDir}/resources/test")
+    testClassesDirs = files("${projectDir}/autograding")
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+    }
+    finalizedBy copyReport
+}
+
+static String stem(String version) {
+    version.substring(0, version.lastIndexOf('.'))
+}
