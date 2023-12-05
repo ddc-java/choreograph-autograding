@@ -36,13 +36,6 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup Java 
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '11'
-        architecture: 'x64'
-        cache: 'gradle'
     - name: Make gradlew executable
       run: chmod +x ${{ inputs.workspace }}/gradlew
       shell: bash
@@ -54,7 +47,7 @@ runs:
       shell: bash
     - name: Prepare autograding credentials
       run: ${{ inputs.workspace }}/gradlew appendProperties -build-file prepare-autograding.gradle
-      shell: bash      
+      shell: bash
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}

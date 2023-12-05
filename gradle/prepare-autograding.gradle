@@ -1,5 +1,5 @@
 /*
- *  Copyright 2022 CNM Ingenuity, Inc.
+ *  Copyright 2023 CNM Ingenuity, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,21 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-plugins {
-    id 'java'
-}
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
-
-group 'edu.cnm.deepdive'
-version '1.0.0'
-
-task appendProperties(type: WriteProperties) {
-    outputFile = file("${projectDir}/gradle.properties")
+tasks.register('appendProperties', WriteProperties) {
+    destinationFile = file("${projectDir}/gradle.properties")
     properties(readProperties("${projectDir}/gradle.properties", "${projectDir}/autograding.properties"))
     property('packageConsumerUser', System.getenv('PACKAGE_CONSUMER_USER'))
     property('packageConsumerToken', System.getenv('PACKAGE_CONSUMER_TOKEN'))
