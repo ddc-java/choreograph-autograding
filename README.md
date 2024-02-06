@@ -4,7 +4,7 @@ This project implements a GitHub Action that prepares the autograding process&md
 
 ## Credits, copyrights, and license information
 
-Written by Nicholas Bennett. &copy; 2023 CNM Ingenuity, Inc.
+Written by Nicholas Bennett. &copy; 2024 CNM Ingenuity, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
