@@ -55,6 +55,6 @@ runs:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
     - name: Extract test files
-      uses: gradle/gradle-build-action@v2.10.0
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: copyConfiguration -PreportName=.
