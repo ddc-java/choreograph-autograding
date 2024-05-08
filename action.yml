@@ -48,12 +48,15 @@ runs:
       shell: bash
     - name: Make gradlew executable
       run: chmod +x ${{ github.workspace }}/gradlew
+      shell: bash
     - name: Prepare autograding credentials
       working-directory: ${{ github.workspace }}
       run: ./gradlew appendProperties -build-file prepare-autograding.gradle
+      shell: bash
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
     - name: Extract test files
       working-directory: ${{ github.workspace }}
       run: ./gradlew copyConfiguration -PreportName=.
+      shell: bash
