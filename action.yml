@@ -36,25 +36,24 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Make gradlew executable
-      run: chmod +x ${{ inputs.workspace }}/gradlew
-      shell: bash
     - name: Validate Gradle wrapper
-      uses: gradle/wrapper-validation-action@v2
+      uses: gradle/actions/wrapper-validation@v3
+    - name: Setup gradle
+      uses: gradle/actions/setup-gradle@v3
     - name: Remove existing Gradle build file
       run: rm -f ${{ inputs.workspace }}/build.gradle*
       shell: bash
     - name: Move autograding Gradle build files
       run: mv ${{ github.action_path }}/gradle/* ${{ inputs.workspace }}/
       shell: bash
+    - name: Make gradlew executable
+      run: chmod +x ${{ github.workspace }}/gradlew
     - name: Prepare autograding credentials
-      uses: gradle/gradle-build-action@v3
-      with:
-        arguments: appendProperties -build-file prepare-autograding.gradle
+      working-directory: ${{ github.workspace }}
+      run: ./gradlew appendProperties -build-file prepare-autograding.gradle
       env:
         PACKAGE_CONSUMER_USER: ${{ inputs.package-consumer-user }}
         PACKAGE_CONSUMER_TOKEN: ${{ inputs.package-consumer-token }}
     - name: Extract test files
-      uses: gradle/gradle-build-action@v3
-      with:
-        arguments: copyConfiguration -PreportName=.
+      working-directory: ${{ github.workspace }}
+      run: ./gradlew copyConfiguration -PreportName=.
